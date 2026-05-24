@@ -7,9 +7,10 @@ headers = []
 [functions."*"]
 
 [build]
-publish = "C:\\Users\\natha\\Desktop\\main\\Projects\\template\\frontend\\dist"
+publish = "C:\\Users\\natha\\Desktop\\main\\Projects\\transcona-music-centre\\frontend\\dist"
 publishOrigin = "ui"
 commandOrigin = "ui"
+base = "C:\\Users\\natha\\Desktop\\main\\Projects\\transcona-music-centre\\frontend"
 command = "npm run build"
 
 [build.environment]
