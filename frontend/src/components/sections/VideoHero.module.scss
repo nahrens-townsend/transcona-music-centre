@@ -1,0 +1,131 @@
+@use "@/styles/variables" as vars;
+
+// Full-viewport hero — extends behind the fixed navbar
+.hero {
+  position: relative;
+  overflow: hidden;
+  height: 60vh;
+  margin-top: calc(-1 * var(--navbar-height, 80px));
+  background-color: #111;
+
+  @media (max-width: vars.$bp-md) {
+    height: 50vh;
+  }
+}
+
+// Stack all video elements on top of each other
+.videos {
+  position: absolute;
+  inset: 0;
+}
+
+// Each video fills the frame; grayscale unifies the colour palette
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  filter: grayscale(85%) brightness(0.9);
+  will-change: opacity;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.video.active {
+  opacity: 1;
+}
+
+// Subtle dark gradient overlay — deepens the bottom edge, keeps the look elegant
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.35) 45%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+// ── Text overlay ─────────────────────────────────────────────────────────────
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Centres the text and adds a soft radial vignette for contrast
+.content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: vars.$space-8;
+  // Gentle radial dark patch — lifts text contrast without a visible box
+  background: radial-gradient(
+    ellipse 65% 38% at 50% 50%,
+    rgba(0, 0, 0, 0.3) 0%,
+    transparent 100%
+  );
+}
+
+.title {
+  font-family: vars.$font-family-heading;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: vars.$font-weight-regular;
+  color: #fff;
+  letter-spacing: 0.07em;
+  line-height: 1.1;
+  margin: 0 0 vars.$space-5;
+  text-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.85),
+    0 0 40px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 2s ease both;
+  animation-delay: 0.5s;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.subtitle {
+  font-family: vars.$font-family-heading;
+  font-size: clamp(0.75rem, 1.8vw, 1rem);
+  font-weight: vars.$font-weight-regular;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.8);
+  animation: riseIn 1.8s ease both;
+  animation-delay: 1.6s;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}

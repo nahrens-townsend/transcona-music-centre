@@ -1,0 +1,65 @@
+@use 'variables' as vars;
+
+// Respond-to breakpoint mixin
+// Usage: @include respond-to('md') { ... }
+@mixin respond-to($bp) {
+  @if $bp == 'sm' {
+    @media (min-width: vars.$bp-sm) { @content; }
+  } @else if $bp == 'md' {
+    @media (min-width: vars.$bp-md) { @content; }
+  } @else if $bp == 'lg' {
+    @media (min-width: vars.$bp-lg) { @content; }
+  } @else if $bp == 'xl' {
+    @media (min-width: vars.$bp-xl) { @content; }
+  } @else if $bp == '2xl' {
+    @media (min-width: vars.$bp-2xl) { @content; }
+  }
+}
+
+// Flex helpers
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Container
+@mixin container {
+  width: 100%;
+  max-width: vars.$container-max-width;
+  margin-inline: auto;
+  padding-inline: vars.$container-padding;
+}
+
+// Visually hidden (accessible)
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Smooth focus ring
+@mixin focus-ring {
+  outline: 2px solid vars.$color-accent;
+  outline-offset: 3px;
+  border-radius: vars.$radius-sm;
+}
+
+// Truncate text
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

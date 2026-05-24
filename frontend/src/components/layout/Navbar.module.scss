@@ -1,0 +1,274 @@
+@use "@/styles/variables" as vars;
+@use "@/styles/mixins" as mix;
+
+// ── Navbar shell ──────────────────────────────────────────────────────────────
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: vars.$color-white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+// ── Inner bar (full-width, no max-width cap) ──────────────────────────────────
+
+.inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.125rem 3rem;
+}
+
+// ── Logo ──────────────────────────────────────────────────────────────────────
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+    opacity: 0.88;
+  }
+}
+
+.logoImg {
+  height: 70px;
+  width: auto;
+
+  @include mix.respond-to("lg") {
+    height: 100px;
+  }
+}
+
+// ── Desktop nav (right-aligned) ───────────────────────────────────────────────
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: 3rem;
+
+  @include mix.respond-to("lg") {
+    display: flex;
+  }
+}
+
+.navLink {
+  font-family: vars.$font-family-heading;
+  font-size: 0.9375rem;
+  font-weight: vars.$font-weight-medium;
+  color: vars.$color-text;
+  text-decoration: none;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+  transition:
+    color vars.$transition-fast,
+    border-color vars.$transition-fast;
+
+  &:hover {
+    color: vars.$color-accent;
+    border-bottom-color: vars.$color-accent;
+    text-decoration: none;
+  }
+}
+
+// ── Lessons Dropdown ──────────────────────────────────────────────────────────
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownTrigger {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: vars.$font-family-heading;
+  font-size: 0.9375rem;
+  font-weight: vars.$font-weight-medium;
+  color: vars.$color-text;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding-bottom: 3px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    color vars.$transition-fast,
+    border-color vars.$transition-fast;
+
+  &:hover {
+    color: vars.$color-accent;
+    border-bottom-color: vars.$color-accent;
+  }
+}
+
+.chevron {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  margin-top: 2px;
+  transition: transform vars.$transition-fast;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 160px;
+  background: vars.$color-white;
+  border-radius: vars.$radius-base;
+  box-shadow: vars.$shadow-lg;
+  border: 1px solid vars.$color-border;
+  overflow: hidden;
+  z-index: 200;
+}
+
+.dropdownItem {
+  display: block;
+  padding: 0.75rem 1.25rem;
+  font-family: vars.$font-family-heading;
+  font-size: 0.875rem;
+  font-weight: vars.$font-weight-regular;
+  color: vars.$color-text;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition:
+    background vars.$transition-fast,
+    color vars.$transition-fast;
+
+  &:hover {
+    background: vars.$color-background;
+    color: vars.$color-accent;
+    text-decoration: none;
+  }
+}
+
+// ── Mobile hamburger ──────────────────────────────────────────────────────────
+
+.hamburger {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  @include mix.respond-to("lg") {
+    display: none;
+  }
+
+  span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background-color: vars.$color-text;
+    border-radius: vars.$radius-full;
+    transition:
+      transform vars.$transition-base,
+      opacity vars.$transition-base;
+  }
+}
+
+.hamburgerOpen {
+  span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  span:nth-child(2) {
+    opacity: 0;
+  }
+
+  span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+// ── Mobile slide-down menu ────────────────────────────────────────────────────
+
+.mobileMenu {
+  position: relative;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height vars.$transition-slow;
+
+  @include mix.respond-to("lg") {
+    display: none;
+  }
+}
+
+.mobileMenuOpen {
+  max-height: 500px;
+}
+
+.mobileMenuInner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 0 1rem;
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.875rem 2rem;
+  font-family: vars.$font-family-heading;
+  font-size: 1.0625rem;
+  font-weight: vars.$font-weight-regular;
+  color: vars.$color-text;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: vars.$color-accent;
+    text-decoration: none;
+  }
+}
+
+.mobileSubMenu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: vars.$color-background;
+}
+
+.mobileSubLink {
+  display: block;
+  padding: 0.6rem 2rem;
+  font-family: vars.$font-family-heading;
+  font-size: 0.9375rem;
+  font-weight: vars.$font-weight-regular;
+  color: vars.$color-text-muted;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  &:hover {
+    color: vars.$color-accent;
+    text-decoration: none;
+  }
+}

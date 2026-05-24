@@ -1,0 +1,164 @@
+@use "@/styles/variables" as vars;
+
+$_ease: cubic-bezier(0.22, 1, 0.36, 1);
+$_dur: 1.7s;
+$_stagger: 0.3s;
+
+// ── Section shell ─────────────────────────────────────────────────────────────
+// Full viewport width — no container, no padding.
+
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  background: vars.$color-primary; // rich black fallback while images load
+}
+
+// ── Item as a link ────────────────────────────────────────────────────────────
+// <Link> resets text-decoration and display; ensure it behaves like the old div.
+
+.item {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  display: block; // Link renders as inline by default
+  text-decoration: none;
+  cursor: pointer;
+
+  // Prominent on mobile — aspect ratio keeps image from collapsing
+  aspect-ratio: 4 / 3;
+
+  @media (min-width: vars.$bp-md) {
+    aspect-ratio: unset;
+    min-height: 540px;
+    height: 40vh;
+    max-height: 780px;
+    flex-direction: row;
+  }
+}
+
+// ── Photo ─────────────────────────────────────────────────────────────────────
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transform: scale(1.06);
+  will-change: opacity, transform;
+  filter: brightness(80%);
+}
+
+// ── Dark gradient scrim ───────────────────────────────────────────────────────
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.22) 42%,
+    rgba(0, 0, 0, 0.04) 100%
+  );
+  pointer-events: none;
+}
+
+// ── Title ─────────────────────────────────────────────────────────────────────
+
+.titleWrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: vars.$space-5 vars.$space-6 vars.$space-6;
+}
+
+.title {
+  display: inline-block;
+  font-family: vars.$font-family-heading;
+  font-size: clamp(#{vars.$font-size-lg}, 2.2vw, #{vars.$font-size-3xl});
+  font-weight: vars.$font-weight-regular;
+  color: vars.$color-white;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+  padding: vars.$space-2 vars.$space-4;
+  // Gentle frosted-glass backdrop for legibility
+  background: rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateX(-10px);
+  will-change: opacity, transform;
+}
+
+// ── Desktop: side-by-side ────────────────────────────────────────────────────
+
+@media (min-width: vars.$bp-md) {
+  .section {
+    flex-direction: row;
+  }
+}
+
+// ── Staggered left-to-right reveal ────────────────────────────────────────────
+// Each tile fades in after the one before it — image first, then title.
+
+@for $i from 1 through 4 {
+  .item:nth-child(#{$i}) {
+    .image {
+      transition:
+        opacity $_dur $_ease #{($i - 1) * $_stagger},
+        transform #{$_dur * 1.15} $_ease #{($i - 1) * $_stagger};
+    }
+
+    .title {
+      transition:
+        opacity #{$_dur * 0.8} $_ease #{($i - 1) * $_stagger + 0.35s},
+        transform #{$_dur * 0.8} $_ease #{($i - 1) * $_stagger + 0.35s};
+    }
+  }
+}
+
+.sectionVisible {
+  .image {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .title {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// ── Hover zoom — enabled only after reveal animations complete ────────────────
+// A separate "revealed" class is added by JS after a timeout so the hover
+// transitions (fast, 0-delay) don't clobber the staggered reveal transitions.
+
+@media (prefers-reduced-motion: no-preference) {
+  .sectionRevealed {
+    .item .image {
+      // Override the long reveal transition with a snappy hover-ready one
+      transition: transform 0.55s $_ease;
+    }
+
+    .item:hover .image {
+      transform: scale(1.06);
+    }
+  }
+}
+
+// ── Reduced motion ────────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .title {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

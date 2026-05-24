@@ -1,0 +1,175 @@
+// =============================================================================
+// BRANDING — the single source of truth for all visual tokens
+// =============================================================================
+// Edit this file to retheme the entire site.
+
+// -----------------------------------------------------------------------------
+// Color Palette
+// -----------------------------------------------------------------------------
+
+// Primary — Deep Forest Green
+$color-primary: #000000;
+$color-primary-light: #3a8a59;
+$color-primary-dark: #1b4a2e;
+
+// Secondary — Warm Earth Brown
+$color-secondary: #8b5e3c;
+$color-secondary-light: #a8754f;
+$color-secondary-dark: #6b4226;
+
+// Accent — Golden Sun
+$color-accent: #5a653d;
+$color-accent-light: #f2c55a;
+$color-accent-dark: #c48010;
+
+// Neutral / UI
+$color-white: #ffffff;
+$color-background: #f7f7f7;
+$color-background-alt: #fbfaf7;
+$color-background-dark: #966f33;
+$color-background-green: #636f34;
+$color-background-brown: #966f33;
+$color-background-pink: #fad1cc;
+$color-background-parchment: #fdf9eb;
+$color-border: #d5cfc4;
+$color-shadow: rgba(0, 0, 0, 0.08);
+
+// Text
+$color-text: #1e1e1e;
+$color-text-muted: #5a5a5a;
+$color-text-light: #8a8a8a;
+
+// Semantic
+$color-success: #3b7a3b;
+$color-error: #c0392b;
+$color-warning: #e8a820;
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+
+$font-family-base: Georgia, "Marcellus", serif;
+$font-family-heading: sans-serif;
+$font-family-mono: "Courier New", Courier, monospace;
+
+$font-size-xs: 0.75rem; //  12px
+$font-size-sm: 0.875rem; //  14px
+$font-size-base: 1rem; //  16px
+$font-size-lg: 1.125rem; //  18px
+$font-size-xl: 1.25rem; //  20px
+$font-size-2xl: 1.5rem; //  24px
+$font-size-3xl: 1.875rem; //  30px
+$font-size-4xl: 2.25rem; //  36px
+$font-size-5xl: 3rem; //  48px
+$font-size-6xl: 4rem; //  64px
+
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$line-height-tight: 1.25;
+$line-height-base: 1.6;
+$line-height-relaxed: 1.75;
+
+// -----------------------------------------------------------------------------
+// Spacing Scale (4px base)
+// -----------------------------------------------------------------------------
+
+$space-1: 0.25rem; //  4px
+$space-2: 0.5rem; //  8px
+$space-3: 0.75rem; //  12px
+$space-4: 1rem; //  16px
+$space-5: 1.25rem; //  20px
+$space-6: 1.5rem; //  24px
+$space-8: 2rem; //  32px
+$space-10: 2.5rem; //  40px
+$space-12: 3rem; //  48px
+$space-14: 3.5rem; //  56px
+$space-16: 4rem; //  64px
+$space-20: 5rem; //  80px
+$space-24: 6rem; //  96px
+$space-28: 7rem; // 112px
+
+// -----------------------------------------------------------------------------
+// Layout
+// -----------------------------------------------------------------------------
+
+$container-max-width: 1400px;
+$container-padding: $space-6;
+
+// -----------------------------------------------------------------------------
+// Borders & Radius
+// -----------------------------------------------------------------------------
+
+$border-width: 1px;
+$radius-sm: 4px;
+$radius-base: 8px;
+$radius-lg: 12px;
+$radius-xl: 20px;
+$radius-full: 9999px;
+
+// -----------------------------------------------------------------------------
+// Shadows
+// -----------------------------------------------------------------------------
+
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+$shadow-base: 0 4px 12px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+// -----------------------------------------------------------------------------
+// Transitions
+// -----------------------------------------------------------------------------
+
+$transition-fast: 150ms ease;
+$transition-base: 250ms ease;
+$transition-slow: 400ms ease;
+
+// -----------------------------------------------------------------------------
+// Breakpoints
+// -----------------------------------------------------------------------------
+
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 992px;
+$bp-xl: 1350px;
+$bp-2xl: 1400px;
+
+// -----------------------------------------------------------------------------
+// CSS Custom Properties — exposed for runtime use
+// -----------------------------------------------------------------------------
+// Import this file once in main.scss (or App.scss) to register all tokens
+// as CSS variables on :root.
+
+:root {
+  // Colors
+  --color-primary: #{$color-primary};
+  --color-primary-light: #{$color-primary-light};
+  --color-primary-dark: #{$color-primary-dark};
+  --color-secondary: #{$color-secondary};
+  --color-secondary-light: #{$color-secondary-light};
+  --color-secondary-dark: #{$color-secondary-dark};
+  --color-accent: #{$color-accent};
+  --color-accent-light: #{$color-accent-light};
+  --color-accent-dark: #{$color-accent-dark};
+  --color-white: #{$color-white};
+  --color-background: #{$color-background};
+  --color-background-alt: #{$color-background-alt};
+  --color-border: #{$color-border};
+  --color-text: #{$color-text};
+  --color-text-muted: #{$color-text-muted};
+  --color-text-light: #{$color-text-light};
+  --color-success: #{$color-success};
+  --color-error: #{$color-error};
+  --color-warning: #{$color-warning};
+
+  // Typography
+  --font-family-base: #{$font-family-base};
+  --font-family-heading: #{$font-family-heading};
+  --font-size-base: #{$font-size-base};
+  --line-height-base: #{$line-height-base};
+
+  // Spacing
+  --container-max-width: #{$container-max-width};
+  --container-padding: #{$container-padding};
+}

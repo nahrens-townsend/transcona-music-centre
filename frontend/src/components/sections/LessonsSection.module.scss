@@ -1,0 +1,210 @@
+@use "@/styles/variables" as vars;
+@use "@/styles/mixins" as mix;
+
+// Animation timing — long, unhurried, like a sustained note
+$_ease: cubic-bezier(0.22, 1, 0.36, 1);
+$_dur: 1.5s;
+
+// ── Section shell ─────────────────────────────────────────────────────────────
+
+.section {
+  position: relative;
+  overflow: hidden;
+  background-color: vars.$color-white;
+  padding-block: vars.$space-24;
+}
+
+// ── Decorative clefs — positioned absolutely in opposite corners ──────────────
+
+.trebleWrap {
+  position: absolute;
+  top: vars.$space-28;
+  left: vars.$space-28;
+  width: 72px;
+  color: vars.$color-primary;
+  pointer-events: none;
+  display: none;
+
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @include mix.respond-to("md") {
+    width: 100px;
+  }
+
+  @include mix.respond-to("lg") {
+    width: 130px;
+  }
+
+  // Reveal animation: drifts in gently from above
+  opacity: 0;
+  transform: translateY(-18px);
+  transition:
+    opacity $_dur $_ease 0s,
+    transform $_dur $_ease 0s;
+}
+
+.bassWrap {
+  position: absolute;
+  bottom: vars.$space-28;
+  right: vars.$space-28;
+  // Quarter note is 48×96 (2:1 tall). Halving the width keeps rendered height
+  // in line with EighthNotes in .trebleWrap (72/100/130px → ~66/92/119px tall).
+  width: 34px;
+  color: vars.$color-primary;
+  pointer-events: none;
+  display: none;
+
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @include mix.respond-to("md") {
+    width: 46px;
+  }
+
+  @include mix.respond-to("lg") {
+    width: 60px;
+  }
+
+  // Reveal animation: drifts in gently from below
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity $_dur $_ease 1.6s,
+    transform $_dur $_ease 1.6s;
+}
+
+// ── Content area ──────────────────────────────────────────────────────────────
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 660px;
+  margin-inline: auto;
+  padding-inline: vars.$container-padding;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+// ── Typography ────────────────────────────────────────────────────────────────
+
+.title {
+  font-family: vars.$font-family-heading;
+  font-size: clamp(#{vars.$font-size-2xl}, 3vw, #{vars.$font-size-4xl});
+
+  font-weight: vars.$font-weight-regular;
+  color: vars.$color-primary;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 vars.$space-8;
+
+  // Reveal animation
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity $_dur $_ease 0.4s,
+    transform $_dur $_ease 0.4s;
+}
+
+.body {
+  font-family: vars.$font-family-base;
+  font-size: clamp(#{vars.$font-size-base}, 1.4vw, #{vars.$font-size-lg});
+  color: vars.$color-primary;
+  line-height: vars.$line-height-relaxed;
+  margin: 0 0 vars.$space-12;
+
+  // Reveal animation
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity $_dur $_ease 0.8s,
+    transform $_dur $_ease 0.8s;
+}
+
+// ── Buttons ───────────────────────────────────────────────────────────────────
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$space-4;
+  width: 100%;
+
+  @include mix.respond-to("sm") {
+    flex-direction: row;
+    width: auto;
+  }
+
+  // Reveal animation — enter together, slightly after the body
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity $_dur $_ease 1.15s,
+    transform $_dur $_ease 1.15s;
+}
+
+.btn {
+  display: inline-block;
+  font-family: vars.$font-family-heading;
+  font-size: vars.$font-size-sm;
+  font-weight: vars.$font-weight-regular;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  color: vars.$color-primary;
+  border: 1px solid rgba(0, 0, 0, 0.55);
+  padding: vars.$space-4 vars.$space-8;
+  background-color: transparent;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: vars.$color-white;
+    color: vars.$color-primary;
+    border-color: vars.$color-primary;
+    outline: none;
+  }
+
+  &:focus-visible {
+    @include mix.focus-ring;
+  }
+}
+
+// ── Triggered when section enters viewport ────────────────────────────────────
+
+.sectionVisible {
+  .trebleWrap,
+  .title,
+  .body,
+  .buttons,
+  .bassWrap {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ── Reduced motion ────────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .trebleWrap,
+  .title,
+  .body,
+  .buttons,
+  .bassWrap {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

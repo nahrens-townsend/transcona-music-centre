@@ -1,0 +1,200 @@
+@use "@/styles/variables" as vars;
+@use "@/styles/mixins" as mix;
+
+// ── Section shell ─────────────────────────────────────────────────────────────
+
+.section {
+  background-color: vars.$color-white;
+  padding-block: vars.$space-24;
+}
+
+// ── Layout ────────────────────────────────────────────────────────────────────
+
+.inner {
+  @include mix.container;
+  display: flex;
+  flex-direction: column;
+
+  @include mix.respond-to("md") {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+.panel {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: vars.$space-8;
+  flex: 1;
+  padding: vars.$space-10 vars.$space-4;
+
+  @include mix.respond-to("md") {
+    padding: vars.$space-8;
+  }
+
+  @include mix.respond-to("lg") {
+    padding: vars.$space-10 vars.$space-12;
+  }
+}
+
+// ── Icon ──────────────────────────────────────────────────────────────────────
+
+.iconWrap {
+  flex-shrink: 0;
+  width: 64px;
+  color: rgba(0, 0, 0, 0.88);
+
+  svg {
+    width: 100%;
+    height: auto;
+    fill: currentColor;
+  }
+
+  @include mix.respond-to("md") {
+    width: 80px;
+  }
+}
+
+// Quarter note (48×96) is 2:1 tall; narrow it so its rendered height matches
+// the eighth notes (96×88) icon in the right panel (~59px / ~73px tall).
+.panelLeft .iconWrap {
+  width: 30px;
+
+  @include mix.respond-to("md") {
+    width: 37px;
+  }
+}
+
+// ── Text ──────────────────────────────────────────────────────────────────────
+
+.title {
+  font-family: vars.$font-family-heading;
+  font-size: clamp(#{vars.$font-size-2xl}, 3vw, #{vars.$font-size-4xl});
+  font-weight: vars.$font-weight-regular;
+  color: vars.$color-primary;
+  letter-spacing: 0.06em;
+  margin: 0 0 vars.$space-5;
+  text-transform: uppercase;
+}
+
+.body {
+  font-family: vars.$font-family-base;
+  font-size: clamp(#{vars.$font-size-base}, 1.4vw, #{vars.$font-size-lg});
+  color: vars.$color-primary;
+  line-height: vars.$line-height-relaxed;
+  margin: 0;
+}
+
+// ── Divider ───────────────────────────────────────────────────────────────────
+
+.divider {
+  background-color: rgba(255, 255, 255, 0.12);
+  // Horizontal on mobile
+  height: 1px;
+  width: calc(100% - #{vars.$space-8});
+  align-self: center;
+
+  @include mix.respond-to("md") {
+    // Vertical on desktop
+    width: 1px;
+    height: auto;
+    align-self: stretch;
+    margin-block: vars.$space-10;
+  }
+}
+
+// ── Scroll-reveal animations ─────────────────────────────────────────────────
+// Each element fades and rises in sequence — like successive notes in a phrase.
+
+$_ease: cubic-bezier(0.22, 1, 0.36, 1);
+$_dur: 1.4s;
+
+.panelLeft .iconWrap {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity $_dur $_ease 0s,
+    transform $_dur $_ease 0s;
+}
+
+.panelLeft .title {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity $_dur $_ease 0.4s,
+    transform $_dur $_ease 0.4s;
+}
+
+.panelLeft .body {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity $_dur $_ease 0.8s,
+    transform $_dur $_ease 0.8s;
+}
+
+.divider {
+  opacity: 0;
+  transition: opacity $_dur $_ease 1.05s;
+}
+
+.panelRight .iconWrap {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity $_dur $_ease 1.25s,
+    transform $_dur $_ease 1.25s;
+  order: 2;
+
+  @include mix.respond-to("md") {
+    order: 0;
+  }
+}
+
+.panelRight .title {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity $_dur $_ease 1.65s,
+    transform $_dur $_ease 1.65s;
+}
+
+.panelRight .body {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity $_dur $_ease 2.05s,
+    transform $_dur $_ease 2.05s;
+}
+
+// Triggered when section enters viewport
+.sectionVisible {
+  .panelLeft .iconWrap,
+  .panelLeft .title,
+  .panelLeft .body,
+  .panelRight .iconWrap,
+  .panelRight .title,
+  .panelRight .body {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .divider {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panelLeft .iconWrap,
+  .panelLeft .title,
+  .panelLeft .body,
+  .divider,
+  .panelRight .iconWrap,
+  .panelRight .title,
+  .panelRight .body {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
